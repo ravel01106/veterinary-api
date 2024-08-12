@@ -1,6 +1,6 @@
 package com.aravelo.veterinary_api.domain.models;
 
-public class Quotes {
+public class Quote {
   String id;
   String petName;
   String ownerName;
@@ -8,7 +8,7 @@ public class Quotes {
   String time;
   String symptoms;
 
-  public Quotes(String petName, String ownerName, String date, String time, String symptoms) {
+  public Quote(String petName, String ownerName, String date, String time, String symptoms) {
     this.petName = petName;
     this.ownerName = ownerName;
     this.date = date;
@@ -16,7 +16,7 @@ public class Quotes {
     this.symptoms = symptoms;
   }
 
-  public Quotes() {
+  public Quote() {
   }
 
   public String getId() {
