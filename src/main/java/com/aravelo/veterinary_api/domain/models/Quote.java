@@ -1,7 +1,18 @@
 package com.aravelo.veterinary_api.domain.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "quotes")
 public class Quote {
-  String id;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Integer id;
   String petName;
   String ownerName;
   String date;
@@ -19,11 +30,11 @@ public class Quote {
   public Quote() {
   }
 
-  public String getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
