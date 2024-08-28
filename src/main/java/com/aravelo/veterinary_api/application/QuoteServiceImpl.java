@@ -17,7 +17,9 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public List<Quote> getAllQuotes() {
-    return new ArrayList<Quote>();
+    List<Quote> quotes = new ArrayList<>();
+    quoteRepository.findAll().forEach(quotes::add);
+    return quotes;
   }
   @Override
   public Quote getQuoteById(String id) {
