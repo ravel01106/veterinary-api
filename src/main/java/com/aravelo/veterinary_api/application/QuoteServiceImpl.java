@@ -34,7 +34,7 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public Quote createQuote(Quote quote) {
-    throw new UnsupportedOperationException("Unimplemented method 'createQuote'");
+    return null;
   }
 
   @Override

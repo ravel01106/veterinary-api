@@ -65,4 +65,23 @@ public class QuoteServiceImplShould {
     assertEquals(quoteInRepository, quote);
 
   }
+
+  @Test
+  public void createNewQuote(){
+    Quote newQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+    Quote newQuoteRepository = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+    newQuoteRepository.setId(1L);
+
+    when(quoteRepository.save(newQuote)).thenReturn(newQuoteRepository);
+
+    Quote quoteCreated = quoteServiceImpl.createQuote(newQuote);
+
+    verify(quoteRepository, times(1)).save(newQuote);
+
+    assertEquals(newQuoteRepository, quoteCreated);
+
+  }
+
+
+
 }
