@@ -82,6 +82,23 @@ public class QuoteServiceImplShould {
 
   }
 
+  @Test
+  public void updateQuoteById(){
+    Long quoteId = 1L;
+    Quote updatedQuote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote updatedQuoteRepository = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    updatedQuoteRepository.setId(quoteId);
 
+    when(quoteRepository.existsById(quoteId)).thenReturn(true);
+    when(quoteRepository.save(updatedQuoteRepository)).thenReturn(updatedQuoteRepository);
+
+    Quote quoteResult = quoteServiceImpl.updatedQuote(quoteId, updatedQuote);
+
+    verify(quoteRepository, times(1)).existsById(quoteId);
+    verify(quoteRepository, times(1)).save(updatedQuoteRepository);
+
+    assertEquals(updatedQuoteRepository, quoteResult);
+
+  }
 
 }

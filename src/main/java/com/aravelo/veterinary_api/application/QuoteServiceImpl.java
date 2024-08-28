@@ -39,7 +39,7 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public Quote updatedQuote(Long id, Quote quote) {
-    throw new UnsupportedOperationException("Unimplemented method 'updatedQuote'");
+    return null;
   }
 
   @Override
