@@ -2,6 +2,7 @@ package com.aravelo.veterinary_api.application;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,7 +24,12 @@ public class QuoteServiceImpl implements QuoteService{
   }
   @Override
   public Quote getQuoteById(Long id) {
-    return null;
+    Quote quote = null;
+    Optional<Quote> quoteOptional = quoteRepository.findById(id);
+    if (quoteOptional.isPresent()){
+      quote = quoteOptional.get();
+    }
+    return quote;
   }
 
   @Override

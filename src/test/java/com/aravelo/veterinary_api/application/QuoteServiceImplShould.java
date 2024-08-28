@@ -54,6 +54,7 @@ public class QuoteServiceImplShould {
   public void giveQuoteById(){
     Long quoteId = 1L;
     Quote quoteInRepository = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+    quoteInRepository.setId(quoteId);
 
     when(quoteRepository.findById(quoteId)).thenReturn(Optional.of(quoteInRepository));
 
@@ -62,8 +63,6 @@ public class QuoteServiceImplShould {
     verify(quoteRepository, times(1)).findById(quoteId);
 
     assertEquals(quoteInRepository, quote);
-
-
 
   }
 }
