@@ -101,4 +101,16 @@ public class QuoteServiceImplShould {
 
   }
 
+  @Test
+  public void deleteQuoteById(){
+    Long quoteId = 1L;
+
+    when(quoteRepository.existsById(quoteId)).thenReturn(true);
+
+    quoteServiceImpl.deleteQuote(quoteId);
+
+    verify(quoteRepository, times(1)).existsById(quoteId);
+    verify(quoteRepository, times(1)).deleteById(quoteId);
+  }
+
 }

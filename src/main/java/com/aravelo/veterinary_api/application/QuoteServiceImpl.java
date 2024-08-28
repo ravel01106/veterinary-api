@@ -57,7 +57,7 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public void deleteQuote(Long id) {
-    throw new UnsupportedOperationException("Unimplemented method 'deleteQuote'");
+
   }
 
 }
