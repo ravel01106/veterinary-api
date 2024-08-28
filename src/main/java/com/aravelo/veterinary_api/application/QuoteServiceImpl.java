@@ -34,7 +34,7 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public Quote createQuote(Quote quote) {
-    return null;
+    return quoteRepository.save(quote);
   }
 
   @Override
