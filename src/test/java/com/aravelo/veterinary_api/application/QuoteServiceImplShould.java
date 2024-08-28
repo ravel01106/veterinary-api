@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,6 +47,23 @@ public class QuoteServiceImplShould {
     verify(quoteRepository, times(1)).findAll();
 
     assertEquals(quotes.size(), 3);
+
+  }
+
+  @Test
+  public void giveQuoteById(){
+    Long quoteId = 1L;
+    Quote quoteInRepository = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+
+    when(quoteRepository.findById(quoteId)).thenReturn(Optional.of(quoteInRepository));
+
+    Quote quote = quoteServiceImpl.getQuoteById(quoteId);
+
+    verify(quoteRepository, times(1)).findById(quoteId);
+
+    assertEquals(quoteInRepository, quote);
+
+
 
   }
 }

@@ -22,8 +22,8 @@ public class QuoteServiceImpl implements QuoteService{
     return quotes;
   }
   @Override
-  public Quote getQuoteById(String id) {
-    throw new UnsupportedOperationException("Unimplemented method 'getQuoteById'");
+  public Quote getQuoteById(Long id) {
+    return null;
   }
 
   @Override
@@ -32,12 +32,12 @@ public class QuoteServiceImpl implements QuoteService{
   }
 
   @Override
-  public Quote updatedQuote(String id, Quote quote) {
+  public Quote updatedQuote(Long id, Quote quote) {
     throw new UnsupportedOperationException("Unimplemented method 'updatedQuote'");
   }
 
   @Override
-  public void deleteQuote(String id) {
+  public void deleteQuote(Long id) {
     throw new UnsupportedOperationException("Unimplemented method 'deleteQuote'");
   }
 
