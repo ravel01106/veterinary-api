@@ -39,7 +39,20 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public Quote updatedQuote(Long id, Quote quote) {
-    return null;
+    Quote quoteUpdated = null;
+
+    if (quoteRepository.existsById(id)) {
+      Quote newQuote = new Quote();
+      newQuote.setId(id);
+      newQuote.setPetName(quote.getPetName());
+      newQuote.setOwnerName(quote.getOwnerName());
+      newQuote.setDate(quote.getDate());
+      newQuote.setTime(quote.getTime());
+      newQuote.setSymptoms(quote.getSymptoms());
+      quoteUpdated = quoteRepository.save(newQuote);
+    }
+
+    return quoteUpdated;
   }
 
   @Override
