@@ -57,6 +57,9 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public void deleteQuote(Long id) {
+    if (quoteRepository.existsById(id)) {
+      quoteRepository.deleteById(id);
+    }
 
   }
 
