@@ -28,9 +28,6 @@ public class UserControllerShould {
   @Autowired
   private ObjectMapper objectMapper;
 
-  // log in an existing user
-  // throw error message when doesnt exist the sending user
-
   @Test
   public void logInAnExistingUser() throws Exception {
     User userAdmin = new User("admin", "admin");
@@ -60,8 +57,8 @@ public class UserControllerShould {
       .contentType(MediaType.APPLICATION_JSON)
       .content(userAdminJson))
       .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errorMessage").value("The user is incorrect"))
-      .andExpect(jsonPath("$.errorType").value("The user is incorrect"));
+      .andExpect(jsonPath("$.message").value("The User does not exist in the database"))
+      .andExpect(jsonPath("$.errorType").value("USER_NOT_EXISTS"));
 
   }
 
