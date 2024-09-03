@@ -63,10 +63,17 @@ public class QuoteControllerShould {
 
     String quoteJson = objectMapper.writeValueAsString(quoteInService);
 
+    System.out.println(quoteJson);
+
     mockMvc.perform(
       get("/api/v1/quote/{quoteId}", quoteId)
     .contentType(MediaType.APPLICATION_JSON))
     .andExpect(status().isOk())
-    .andExpect(jsonPath("$").value(quoteJson));
+    .andExpect(jsonPath("$.id").value("1"))
+    .andExpect(jsonPath("$.petName").value("John"))
+    .andExpect(jsonPath("$.ownerName").value("Marco Perez"))
+    .andExpect(jsonPath("$.date").value("12/04/2024"))
+    .andExpect(jsonPath("$.time").value("12:45"))
+    .andExpect(jsonPath("$.symptoms").value("stomach pain"));
   }
 }

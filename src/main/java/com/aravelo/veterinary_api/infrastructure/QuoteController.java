@@ -12,6 +12,7 @@ import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.services.QuoteService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -25,5 +26,11 @@ public class QuoteController {
   public ResponseEntity<List<Quote>> showAllQuotes(){
     List<Quote> quotes =  quoteService.getAllQuotes();
     return new ResponseEntity<List<Quote>>(quotes, HttpStatus.OK);
+  }
+
+  @GetMapping("/quote/{quoteId}")
+  public ResponseEntity<Quote> showQuoteById(@PathVariable("quoteId") Long quoteId){
+    Quote quoteById = quoteService.getQuoteById(quoteId);
+    return new ResponseEntity<Quote>(quoteById, HttpStatus.OK);
   }
 }
