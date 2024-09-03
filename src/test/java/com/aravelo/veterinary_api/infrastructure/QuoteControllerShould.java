@@ -35,7 +35,7 @@ public class QuoteControllerShould {
 
   @Test
   public void showAllQuotes() throws Exception{
-List<Quote> quotesObtain = Arrays.asList(
+    List<Quote> quotesObtain = Arrays.asList(
         new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain"),
         new Quote("Harry", "Adrian Gonzalez","15/05/2024", "10:05", "diarrhoea"),
         new Quote("Bolt", "Miriam Cabrera","22/06/2024", "17:30", "annual review")
