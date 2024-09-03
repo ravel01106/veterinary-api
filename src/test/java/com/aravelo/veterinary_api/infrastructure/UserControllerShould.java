@@ -48,4 +48,21 @@ public class UserControllerShould {
 
   }
 
+  @Test
+  public void throwErrorMessageWhenDoesNotExistTheUser() throws Exception {
+    User user = new User("pepe", "1234");
+    when(userServiceImpl.getUserByName("pepe")).thenReturn(null);
+
+    String userAdminJson = objectMapper.writeValueAsString(user);
+
+    this.mockMvc.perform(
+      post("/login")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(userAdminJson))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.errorMessage").value("The user is incorrect"))
+      .andExpect(jsonPath("$.errorType").value("The user is incorrect"));
+
+  }
+
 }
