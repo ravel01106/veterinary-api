@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.services.QuoteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(QuoteController.class)
 public class QuoteControllerShould {
@@ -26,6 +27,9 @@ public class QuoteControllerShould {
 
   @MockBean
   private QuoteService quoteService;
+
+  @Autowired
+  private ObjectMapper objectMapper;
 
   // show all quote
   // show a quote by id
@@ -47,5 +51,22 @@ public class QuoteControllerShould {
     .contentType(MediaType.APPLICATION_JSON))
     .andExpect(status().isOk())
     .andExpect(jsonPath("$.size()").value(3));
+  }
+
+  @Test
+  public void showQuoteById() throws Exception{
+    Long quoteId = 1L;
+    Quote quoteInService = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+    quoteInService.setId(quoteId);
+
+    when(quoteService.getQuoteById(quoteId)).thenReturn(quoteInService);
+
+    String quoteJson = objectMapper.writeValueAsString(quoteInService);
+
+    mockMvc.perform(
+      get("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isOk())
+    .andExpect(jsonPath("$").value(quoteJson));
   }
 }
