@@ -8,8 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.aravelo.veterinary_api.application.UserServiceImpl;
 import com.aravelo.veterinary_api.domain.models.User;
+import com.aravelo.veterinary_api.domain.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -23,7 +23,7 @@ public class UserControllerShould {
   private MockMvc mockMvc;
 
   @MockBean
-  private UserServiceImpl userServiceImpl;
+  private UserService userService;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -31,7 +31,7 @@ public class UserControllerShould {
   @Test
   public void logInAnExistingUser() throws Exception {
     User userAdmin = new User("admin", "admin");
-    when(userServiceImpl.getUserByName("admin")).thenReturn(userAdmin);
+    when(userService.getUserByName("admin")).thenReturn(userAdmin);
 
     String userAdminJson = objectMapper.writeValueAsString(userAdmin);
 
@@ -48,7 +48,7 @@ public class UserControllerShould {
   @Test
   public void throwErrorMessageWhenDoesNotExistTheUser() throws Exception {
     User user = new User("pepe", "1234");
-    when(userServiceImpl.getUserByName("pepe")).thenReturn(null);
+    when(userService.getUserByName("pepe")).thenReturn(null);
 
     String userAdminJson = objectMapper.writeValueAsString(user);
 

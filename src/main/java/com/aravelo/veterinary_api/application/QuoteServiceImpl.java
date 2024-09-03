@@ -22,6 +22,7 @@ public class QuoteServiceImpl implements QuoteService{
     quoteRepository.findAll().forEach(quotes::add);
     return quotes;
   }
+
   @Override
   public Quote getQuoteById(Long id) {
     Quote quote = null;
