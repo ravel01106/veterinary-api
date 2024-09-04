@@ -1,6 +1,7 @@
 package com.aravelo.veterinary_api.infrastructure;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -115,5 +116,18 @@ public class QuoteControllerShould {
     .andExpect(status().isOk())
     .andExpect(jsonPath("$.infoMessage").value("The quote is updated"))
     .andExpect(jsonPath("$.rowChanged").value("1"));
+  }
+
+  @Test
+  public void deleteQuoteById() throws Exception{
+    Long quoteId = 1L;
+    when(quoteService.deleteQuote(quoteId)).thenReturn(true);
+
+    mockMvc.perform(delete("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isOk())
+    .andExpect(jsonPath("$.infoMessage").value("The quote is deleted"))
+    .andExpect(jsonPath("$.rowChanged").value("1"));
+
   }
 }
