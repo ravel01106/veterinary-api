@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aravelo.veterinary_api.domain.models.Quote;
+import com.aravelo.veterinary_api.domain.models.ResultMessage;
 import com.aravelo.veterinary_api.domain.services.QuoteService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -43,4 +46,12 @@ public class QuoteController {
     return new ResponseEntity<Quote>(_quote, HttpStatus.CREATED);
 
   }
+
+  @PutMapping("/quote/{quoteId}")
+  public ResponseEntity<ResultMessage> updateQuoteById(@PathVariable("quoteId") Long quoteId, @RequestBody Quote quote){
+    quoteService.updatedQuote(quoteId, quote);
+    return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is updated", 1), HttpStatus.OK);
+
+  }
+
 }

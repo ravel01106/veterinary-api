@@ -3,6 +3,7 @@ package com.aravelo.veterinary_api.infrastructure;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -108,7 +109,7 @@ public class QuoteControllerShould {
     String quoteJson = objectMapper.writeValueAsString(updatedQuote);
 
 
-    mockMvc.perform(post("/api/v1/quote/{quoteId}", quoteId)
+    mockMvc.perform(put("/api/v1/quote/{quoteId}", quoteId)
     .contentType(MediaType.APPLICATION_JSON)
     .content(quoteJson))
     .andExpect(status().isOk())
