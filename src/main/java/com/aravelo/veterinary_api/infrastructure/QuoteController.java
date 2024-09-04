@@ -12,6 +12,7 @@ import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.models.ResultMessage;
 import com.aravelo.veterinary_api.domain.services.QuoteService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,13 @@ public class QuoteController {
   public ResponseEntity<ResultMessage> updateQuoteById(@PathVariable("quoteId") Long quoteId, @RequestBody Quote quote){
     quoteService.updatedQuote(quoteId, quote);
     return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is updated", 1), HttpStatus.OK);
+
+  }
+
+  @DeleteMapping("/quote/{quoteId}")
+  public ResponseEntity<ResultMessage> deleteQuoteById(@PathVariable("quoteId") Long quoteId){
+     quoteService.deleteQuote(quoteId);
+     return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is deleted", 1), HttpStatus.OK);
 
   }
 
