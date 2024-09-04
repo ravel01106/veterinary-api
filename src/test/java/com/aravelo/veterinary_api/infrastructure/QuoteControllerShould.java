@@ -96,4 +96,23 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.time").value("12:45"))
     .andExpect(jsonPath("$.symptoms").value("stomach pain"));
   }
+
+  @Test
+  public void updateQuoteById() throws Exception{
+    Long quoteId = 1L;
+    Quote updatedQuote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote updatedQuoteInService = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    updatedQuoteInService.setId(quoteId);
+
+    when(quoteService.updatedQuote(quoteId, updatedQuote)).thenReturn(updatedQuoteInService);
+    String quoteJson = objectMapper.writeValueAsString(updatedQuote);
+
+
+    mockMvc.perform(post("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(quoteJson))
+    .andExpect(status().isOk())
+    .andExpect(jsonPath("$.infoMessage").value("The quote is updated"))
+    .andExpect(jsonPath("$.rowChanged").value("1"));
+  }
 }
