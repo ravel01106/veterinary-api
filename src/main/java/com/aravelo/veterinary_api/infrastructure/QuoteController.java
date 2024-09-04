@@ -14,6 +14,7 @@ import com.aravelo.veterinary_api.domain.services.QuoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -37,7 +38,9 @@ public class QuoteController {
   }
 
   @PostMapping("/quote")
-  public void createNewQuote(){
+  public ResponseEntity<Quote> createNewQuote(@RequestBody Quote quote){
+    Quote _quote = quoteService.createQuote(quote);
+    return new ResponseEntity<Quote>(_quote, HttpStatus.CREATED);
 
   }
 }

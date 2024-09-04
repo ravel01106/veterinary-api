@@ -83,7 +83,7 @@ public class QuoteControllerShould {
 
     when(quoteService.createQuote(newQuote)).thenReturn(newQuoteInService);
 
-    String quoteJson = objectMapper.writeValueAsString(newQuoteInService);
+    String quoteJson = objectMapper.writeValueAsString(newQuote);
 
     mockMvc.perform(post("/api/v1/quote")
     .contentType(MediaType.APPLICATION_JSON)
