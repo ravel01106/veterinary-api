@@ -2,6 +2,7 @@ package com.aravelo.veterinary_api.infrastructure;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,15 +62,34 @@ public class QuoteControllerShould {
 
     when(quoteService.getQuoteById(quoteId)).thenReturn(quoteInService);
 
-    String quoteJson = objectMapper.writeValueAsString(quoteInService);
-
-    System.out.println(quoteJson);
-
     mockMvc.perform(
       get("/api/v1/quote/{quoteId}", quoteId)
     .contentType(MediaType.APPLICATION_JSON))
     .andExpect(status().isOk())
     .andExpect(jsonPath("$.id").value("1"))
+    .andExpect(jsonPath("$.petName").value("John"))
+    .andExpect(jsonPath("$.ownerName").value("Marco Perez"))
+    .andExpect(jsonPath("$.date").value("12/04/2024"))
+    .andExpect(jsonPath("$.time").value("12:45"))
+    .andExpect(jsonPath("$.symptoms").value("stomach pain"));
+  }
+
+  @Test
+  public void createNewQuote() throws Exception{
+    Long quoteId = 3L;
+    Quote newQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+    Quote newQuoteInService = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+    newQuoteInService.setId(quoteId);
+
+    when(quoteService.createQuote(newQuote)).thenReturn(newQuoteInService);
+
+    String quoteJson = objectMapper.writeValueAsString(newQuoteInService);
+
+    mockMvc.perform(post("/api/v1/quote")
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(quoteJson))
+    .andExpect(status().isCreated())
+    .andExpect(jsonPath("$.id").value("3"))
     .andExpect(jsonPath("$.petName").value("John"))
     .andExpect(jsonPath("$.ownerName").value("Marco Perez"))
     .andExpect(jsonPath("$.date").value("12/04/2024"))
