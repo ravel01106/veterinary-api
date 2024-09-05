@@ -19,19 +19,13 @@ import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.repositories.QuoteRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class QuoteServiceImplShould {
+public class QuoteServiceShould {
 
   @Mock
   private QuoteRepository quoteRepository;
 
   @InjectMocks
   private QuoteServiceImpl quoteServiceImpl;
-
-  // provide all quotes
-  // give a quote by id
-  // create a new quote
-  // update a quote by id
-  // delete a quote by id
 
   @Test
   public void provideAllQuotes(){
@@ -111,6 +105,17 @@ public class QuoteServiceImplShould {
 
     verify(quoteRepository, times(1)).existsById(quoteId);
     verify(quoteRepository, times(1)).deleteById(quoteId);
+  }
+
+  @Test
+  public void returnFalseWhenTwoQuotesDoNotHaveTheSameDate(){
+    Quote quoteToCompare = new Quote("Marco", "David Perez","16/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    quoteDB.setId(1L);
+
+    Boolean result = quoteServiceImpl.haveSameDate(quoteDB, quoteToCompare);
+
+    assertEquals(false, result);
   }
 
 }

@@ -10,4 +10,5 @@ public interface QuoteService {
   Quote createQuote(Quote quote);
   Quote updatedQuote(Long id, Quote quote);
   Boolean deleteQuote(Long id);
+  Boolean haveSameDate(Quote quote, Quote quoteToCompare);
 }

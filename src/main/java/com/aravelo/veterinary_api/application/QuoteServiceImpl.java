@@ -66,4 +66,9 @@ public class QuoteServiceImpl implements QuoteService{
 
   }
 
+  @Override
+  public Boolean haveSameDate(Quote quote, Quote quoteToCompare) {
+    return false;
+  }
+
 }
