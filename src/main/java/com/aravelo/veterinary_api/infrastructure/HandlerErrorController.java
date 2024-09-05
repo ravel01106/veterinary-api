@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.aravelo.veterinary_api.domain.enums.ErrorTypes;
 import com.aravelo.veterinary_api.domain.error.ErrorMessage;
+import com.aravelo.veterinary_api.domain.error.QuoteNotFoundException;
 import com.aravelo.veterinary_api.domain.error.UserNotFoundException;
 
 @ControllerAdvice
@@ -17,6 +18,12 @@ public class HandlerErrorController {
     ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), ErrorTypes.USER_NOT_EXISTS);
     return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
 
+  }
+
+  @ExceptionHandler(QuoteNotFoundException.class)
+  public ResponseEntity<ErrorMessage> notFoundQuote(QuoteNotFoundException ex){
+    ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), ErrorTypes.QUOTE_NOT_FOUND);
+    return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
   }
 
 }

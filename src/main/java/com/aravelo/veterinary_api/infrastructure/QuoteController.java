@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aravelo.veterinary_api.domain.error.QuoteNotFoundException;
 import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.models.ResultMessage;
 import com.aravelo.veterinary_api.domain.services.QuoteService;
@@ -36,8 +37,12 @@ public class QuoteController {
   }
 
   @GetMapping("/quote/{quoteId}")
-  public ResponseEntity<Quote> showQuoteById(@PathVariable("quoteId") Long quoteId){
+  public ResponseEntity<Quote> showQuoteById(@PathVariable("quoteId") Long quoteId) throws QuoteNotFoundException{
     Quote quoteById = quoteService.getQuoteById(quoteId);
+    if (quoteById == null) {
+      String errorMessage = "The quote with id " + quoteId + " is not found.";
+      throw new QuoteNotFoundException(errorMessage);
+    }
     return new ResponseEntity<Quote>(quoteById, HttpStatus.OK);
   }
 
