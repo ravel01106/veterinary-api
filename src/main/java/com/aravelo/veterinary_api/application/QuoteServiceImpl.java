@@ -68,6 +68,10 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public Boolean haveSameDate(Quote quote, Quote quoteToCompare) {
+    if (quote.getDate() == quoteToCompare.getDate() &&
+    quote.getTime() == quoteToCompare.getTime()){
+      return true;
+    }
     return false;
   }
 
