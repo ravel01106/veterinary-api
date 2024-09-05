@@ -118,4 +118,15 @@ public class QuoteServiceShould {
     assertEquals(false, result);
   }
 
+  @Test
+  public void returnTrueWhenTwoQuotesHaveTheSameDate(){
+    Quote quoteToCompare = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    quoteDB.setId(1L);
+
+    Boolean result = quoteServiceImpl.haveSameDate(quoteDB, quoteToCompare);
+
+    assertEquals(true, result);
+  }
+
 }
