@@ -77,6 +77,21 @@ public class QuoteControllerShould {
   }
 
   @Test
+  public void throwErrorWhenQuoteDoesNotFound() throws Exception{
+    Long quoteId = 1L;
+
+    when(quoteService.getQuoteById(quoteId)).thenReturn(null);
+
+    mockMvc.perform(
+      get("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.message").value("The quote with id 1 is not found."))
+    .andExpect(jsonPath("$.errorType").value("QUOTE_NOT_FOUND"));
+
+  }
+
+  @Test
   public void createNewQuote() throws Exception{
     Long quoteId = 3L;
     Quote newQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
