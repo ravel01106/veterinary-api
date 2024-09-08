@@ -71,9 +71,14 @@ public class QuoteController {
   }
 
   @DeleteMapping("/quote/{quoteId}")
-  public ResponseEntity<ResultMessage> deleteQuoteById(@PathVariable("quoteId") Long quoteId){
-     quoteService.deleteQuote(quoteId);
-     return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is deleted", 1), HttpStatus.OK);
+  public ResponseEntity<ResultMessage> deleteQuoteById(@PathVariable("quoteId") Long quoteId) throws QuoteNotFoundException {
+
+    if (!quoteService.deleteQuote(quoteId)) {
+      String errorMessage = "The quote with id " + quoteId + " is not found.";
+      throw new QuoteNotFoundException(errorMessage);
+    }
+    return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is deleted", 1), HttpStatus.OK);
+
 
   }
 
