@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -140,6 +141,19 @@ public class QuoteServiceShould {
 
     verify(quoteRepository, times(1)).findByDateAndTime(quote.getDate(), quote.getTime());
     assertEquals(true, result);
+
+  }
+
+  @Test
+  public void returnFalseIfNotExistQuoteWithSameDateAndTime(){
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+
+
+    when(quoteRepository.findByDateAndTime(quote.getDate(), quote.getTime())).thenReturn(new ArrayList<>());
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime());
+
+    verify(quoteRepository, times(1)).findByDateAndTime(quote.getDate(), quote.getTime());
+    assertEquals(false, result);
 
   }
 
