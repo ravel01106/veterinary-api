@@ -120,7 +120,6 @@ public class QuoteControllerShould {
     Quote newQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
 
     when(quoteService.existQuoteWithSameDateAndTime(newQuote.getDate(), newQuote.getTime())).thenReturn(true);
-    when(quoteService.createQuote(newQuote)).thenReturn(null);
 
     String quoteJson = objectMapper.writeValueAsString(newQuote);
 
@@ -129,7 +128,7 @@ public class QuoteControllerShould {
     .content(quoteJson))
     .andExpect(status().isBadRequest())
     .andExpect(jsonPath("$.message").value("There is quote with the same date and time."))
-    .andExpect(jsonPath("$.errorType").value("QUOTE_IF_ALREADY_EXIST"));
+    .andExpect(jsonPath("$.errorType").value("QUOTE_IS_ALREADY_EXIST"));
 
   }
 

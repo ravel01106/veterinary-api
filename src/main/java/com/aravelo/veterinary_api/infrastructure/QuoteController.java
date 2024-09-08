@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aravelo.veterinary_api.domain.error.QuoteIsAlreadyExistException;
 import com.aravelo.veterinary_api.domain.error.QuoteNotFoundException;
 import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.models.ResultMessage;
@@ -47,7 +48,12 @@ public class QuoteController {
   }
 
   @PostMapping("/quote")
-  public ResponseEntity<Quote> createNewQuote(@RequestBody Quote quote){
+  public ResponseEntity<Quote> createNewQuote(@RequestBody Quote quote) throws QuoteIsAlreadyExistException{
+
+    if (quoteService.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime())) {
+      throw new QuoteIsAlreadyExistException("There is quote with the same date and time.");
+    }
+
     Quote _quote = quoteService.createQuote(quote);
     return new ResponseEntity<Quote>(_quote, HttpStatus.CREATED);
 

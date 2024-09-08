@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.aravelo.veterinary_api.domain.enums.ErrorTypes;
 import com.aravelo.veterinary_api.domain.error.ErrorMessage;
+import com.aravelo.veterinary_api.domain.error.QuoteIsAlreadyExistException;
 import com.aravelo.veterinary_api.domain.error.QuoteNotFoundException;
 import com.aravelo.veterinary_api.domain.error.UserNotFoundException;
 
@@ -24,6 +25,13 @@ public class HandlerErrorController {
   public ResponseEntity<ErrorMessage> notFoundQuote(QuoteNotFoundException ex){
     ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), ErrorTypes.QUOTE_NOT_FOUND);
     return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(QuoteIsAlreadyExistException.class)
+  public ResponseEntity<ErrorMessage> thereIsQuoteWithSameDate(QuoteIsAlreadyExistException ex){
+    ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), ErrorTypes.QUOTE_IS_ALREADY_EXIST);
+    return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
+
   }
 
 }
