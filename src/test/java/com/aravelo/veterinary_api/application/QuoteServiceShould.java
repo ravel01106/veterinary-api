@@ -157,4 +157,18 @@ public class QuoteServiceShould {
 
   }
 
+  @Test
+  public void returnTrueIfExistQuoteWithSameDateAndTimeUpdateQuote(){
+    Long updatedQuoteId = 2L;
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Pepe", "Gonzalez Perez","15/04/2024", "12:05", "anual revision");
+    quoteDB.setId(1L);
+
+    when(quoteRepository.findByIdNot(updatedQuoteId)).thenReturn(Arrays.asList(quoteDB));
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime(), updatedQuoteId);
+
+    verify(quoteRepository, times(1)).findByIdNot(updatedQuoteId);
+    assertEquals(true, result);
+
+  }
 }

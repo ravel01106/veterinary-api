@@ -81,4 +81,8 @@ public class QuoteServiceImpl implements QuoteService{
     return !quotesWithSameDateAndTime.isEmpty();
   }
 
+  @Override
+  public Boolean existQuoteWithSameDateAndTime(String date, String time, Long updatedQuoteId) {
+    return false;
+  }
 }

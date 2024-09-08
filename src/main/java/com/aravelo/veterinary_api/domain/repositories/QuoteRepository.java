@@ -11,5 +11,6 @@ import com.aravelo.veterinary_api.domain.models.Quote;
 public interface QuoteRepository extends CrudRepository<Quote, Long>{
 
   List<Quote> findByDateAndTime(String date, String time);
+  List<Quote> findByIdNot(Long id);
 
 }

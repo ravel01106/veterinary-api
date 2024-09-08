@@ -61,6 +61,7 @@ public class QuoteController {
 
   @PutMapping("/quote/{quoteId}")
   public ResponseEntity<ResultMessage> updateQuoteById(@PathVariable("quoteId") Long quoteId, @RequestBody Quote quote){
+
     quoteService.updatedQuote(quoteId, quote);
     return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is updated", 1), HttpStatus.OK);
 

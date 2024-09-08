@@ -12,4 +12,5 @@ public interface QuoteService {
   Boolean deleteQuote(Long id);
   Boolean haveSameDate(Quote quote, Quote quoteToCompare);
   Boolean existQuoteWithSameDateAndTime(String date, String time);
+  Boolean existQuoteWithSameDateAndTime(String date, String time, Long updatedQuoteId);
 }
