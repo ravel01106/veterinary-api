@@ -75,4 +75,10 @@ public class QuoteServiceImpl implements QuoteService{
     return false;
   }
 
+  @Override
+  public Boolean existQuoteWithSameDateAndTime(String date, String time) {
+    List<Quote> quotesWithSameDateAndTime = quoteRepository.findByDateAndTime(date, time);
+    return !quotesWithSameDateAndTime.isEmpty();
+  }
+
 }

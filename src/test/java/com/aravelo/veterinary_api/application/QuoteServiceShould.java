@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -127,6 +128,33 @@ public class QuoteServiceShould {
     Boolean result = quoteServiceImpl.haveSameDate(quoteDB, quoteToCompare);
 
     assertEquals(true, result);
+  }
+
+  @Test
+  public void returnTrueIfExistQuoteWithSameDateAndTime(){
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Pepe", "Gonzalez Perez","15/04/2024", "12:05", "anual revision");
+    quoteDB.setId(1L);
+
+    when(quoteRepository.findByDateAndTime(quote.getDate(), quote.getTime())).thenReturn(Arrays.asList(quoteDB));
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime());
+
+    verify(quoteRepository, times(1)).findByDateAndTime(quote.getDate(), quote.getTime());
+    assertEquals(true, result);
+
+  }
+
+  @Test
+  public void returnFalseIfNotExistQuoteWithSameDateAndTime(){
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+
+
+    when(quoteRepository.findByDateAndTime(quote.getDate(), quote.getTime())).thenReturn(new ArrayList<>());
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime());
+
+    verify(quoteRepository, times(1)).findByDateAndTime(quote.getDate(), quote.getTime());
+    assertEquals(false, result);
+
   }
 
 }
