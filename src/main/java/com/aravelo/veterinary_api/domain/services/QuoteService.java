@@ -9,5 +9,8 @@ public interface QuoteService {
   Quote getQuoteById(Long id);
   Quote createQuote(Quote quote);
   Quote updatedQuote(Long id, Quote quote);
-  void deleteQuote(Long id);
+  Boolean deleteQuote(Long id);
+  Boolean haveSameDate(Quote quote, Quote quoteToCompare);
+  Boolean existQuoteWithSameDateAndTime(String date, String time);
+  Boolean existQuoteWithSameDateAndTime(String date, String time, Long updatedQuoteId);
 }

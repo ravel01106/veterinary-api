@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -19,19 +20,13 @@ import com.aravelo.veterinary_api.domain.models.Quote;
 import com.aravelo.veterinary_api.domain.repositories.QuoteRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class QuoteServiceImplShould {
+public class QuoteServiceShould {
 
   @Mock
   private QuoteRepository quoteRepository;
 
   @InjectMocks
   private QuoteServiceImpl quoteServiceImpl;
-
-  // provide all quotes
-  // give a quote by id
-  // create a new quote
-  // update a quote by id
-  // delete a quote by id
 
   @Test
   public void provideAllQuotes(){
@@ -113,4 +108,82 @@ public class QuoteServiceImplShould {
     verify(quoteRepository, times(1)).deleteById(quoteId);
   }
 
+  @Test
+  public void returnFalseWhenTwoQuotesDoNotHaveTheSameDate(){
+    Quote quoteToCompare = new Quote("Marco", "David Perez","16/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    quoteDB.setId(1L);
+
+    Boolean result = quoteServiceImpl.haveSameDate(quoteDB, quoteToCompare);
+
+    assertEquals(false, result);
+  }
+
+  @Test
+  public void returnTrueWhenTwoQuotesHaveTheSameDate(){
+    Quote quoteToCompare = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    quoteDB.setId(1L);
+
+    Boolean result = quoteServiceImpl.haveSameDate(quoteDB, quoteToCompare);
+
+    assertEquals(true, result);
+  }
+
+  @Test
+  public void returnTrueIfExistQuoteWithSameDateAndTime(){
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Pepe", "Gonzalez Perez","15/04/2024", "12:05", "anual revision");
+    quoteDB.setId(1L);
+
+    when(quoteRepository.findByDateAndTime(quote.getDate(), quote.getTime())).thenReturn(Arrays.asList(quoteDB));
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime());
+
+    verify(quoteRepository, times(1)).findByDateAndTime(quote.getDate(), quote.getTime());
+    assertEquals(true, result);
+
+  }
+
+  @Test
+  public void returnFalseIfDoesNotExistQuoteWithSameDateAndTime(){
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+
+
+    when(quoteRepository.findByDateAndTime(quote.getDate(), quote.getTime())).thenReturn(new ArrayList<>());
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime());
+
+    verify(quoteRepository, times(1)).findByDateAndTime(quote.getDate(), quote.getTime());
+    assertEquals(false, result);
+
+  }
+
+  @Test
+  public void returnTrueIfExistQuoteWithSameDateAndTimeWhenUpdateQuote(){
+    Long updatedQuoteId = 2L;
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Pepe", "Gonzalez Perez","15/04/2024", "12:05", "anual revision");
+    quoteDB.setId(1L);
+
+    when(quoteRepository.findByIdNot(updatedQuoteId)).thenReturn(Arrays.asList(quoteDB));
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime(), updatedQuoteId);
+
+    verify(quoteRepository, times(1)).findByIdNot(updatedQuoteId);
+    assertEquals(true, result);
+
+  }
+
+  @Test
+  public void returnFalseIfDoesNotExistQuoteWithSameDateAndTimeWhenUpdateQuote(){
+    Long updatedQuoteId = 2L;
+    Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
+    Quote quoteDB = new Quote("Pepe", "Gonzalez Perez","15/04/2024", "12:05", "anual revision");
+    quoteDB.setId(1L);
+
+    when(quoteRepository.findByIdNot(updatedQuoteId)).thenReturn(new ArrayList<>());
+    Boolean result = quoteServiceImpl.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime(), updatedQuoteId);
+
+    verify(quoteRepository, times(1)).findByIdNot(updatedQuoteId);
+    assertEquals(false, result);
+
+  }
 }

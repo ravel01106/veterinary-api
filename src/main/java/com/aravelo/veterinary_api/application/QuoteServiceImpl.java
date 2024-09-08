@@ -22,6 +22,7 @@ public class QuoteServiceImpl implements QuoteService{
     quoteRepository.findAll().forEach(quotes::add);
     return quotes;
   }
+
   @Override
   public Quote getQuoteById(Long id) {
     Quote quote = null;
@@ -56,11 +57,34 @@ public class QuoteServiceImpl implements QuoteService{
   }
 
   @Override
-  public void deleteQuote(Long id) {
+  public Boolean deleteQuote(Long id) {
     if (quoteRepository.existsById(id)) {
       quoteRepository.deleteById(id);
+      return true;
     }
+    return false;
 
   }
 
+  @Override
+  public Boolean haveSameDate(Quote quote, Quote quoteToCompare) {
+    if (quote.getDate() == quoteToCompare.getDate() &&
+    quote.getTime() == quoteToCompare.getTime()){
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public Boolean existQuoteWithSameDateAndTime(String date, String time) {
+    List<Quote> quotesWithSameDateAndTime = quoteRepository.findByDateAndTime(date, time);
+    return !quotesWithSameDateAndTime.isEmpty();
+  }
+
+  @Override
+  public Boolean existQuoteWithSameDateAndTime(String date, String time, Long updatedQuoteId) {
+    List<Quote> quotes = quoteRepository.findByIdNot(updatedQuoteId);
+    List<Quote> quoteWithSameDateAndTime = quotes.stream().filter( quote -> quote.getDate().equals(date) && quote.getTime().equals(time)).toList();
+    return !quoteWithSameDateAndTime.isEmpty();
+  }
 }
