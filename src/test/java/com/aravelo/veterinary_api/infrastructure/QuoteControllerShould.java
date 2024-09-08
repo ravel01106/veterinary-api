@@ -221,4 +221,14 @@ public class QuoteControllerShould {
 
   }
 
+
+  @Test
+  public void throwErrorWhenAccessTheWrongPath() throws Exception {
+    this.mockMvc.perform(get("/api/v1")
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isNotFound())
+    .andExpect(jsonPath("$.message").value("This path does not exist !!!"))
+    .andExpect(jsonPath("$.errorType").value("FAIL_PATH"));
+  }
+
 }
