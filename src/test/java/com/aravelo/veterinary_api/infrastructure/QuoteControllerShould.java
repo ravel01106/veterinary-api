@@ -34,11 +34,6 @@ public class QuoteControllerShould {
   @Autowired
   private ObjectMapper objectMapper;
 
-  // show all quote
-  // show a quote by id
-  // create a new quote
-  // update a quote by id
-  // delete a quote by id
 
   @Test
   public void showAllQuotes() throws Exception{
@@ -55,6 +50,7 @@ public class QuoteControllerShould {
     .andExpect(status().isOk())
     .andExpect(jsonPath("$.size()").value(3));
   }
+
 
   @Test
   public void showQuoteById() throws Exception{
@@ -76,6 +72,7 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.symptoms").value("stomach pain"));
   }
 
+
   @Test
   public void throwErrorWhenQuoteDoesNotFound() throws Exception{
     Long quoteId = 1L;
@@ -90,6 +87,7 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.errorType").value("QUOTE_NOT_FOUND"));
 
   }
+
 
   @Test
   public void createNewQuote() throws Exception{
@@ -132,6 +130,7 @@ public class QuoteControllerShould {
 
   }
 
+
   @Test
   public void updateQuoteById() throws Exception{
     Long quoteId = 1L;
@@ -151,6 +150,26 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.rowChanged").value("1"));
   }
 
+
+  @Test
+  public void throwErrorIfExistQuoteWithSameDateAndTimeWhenUpdateQuote() throws Exception{
+    Long quoteId = 1L;
+    Quote updatedQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+
+    when(quoteService.existQuoteWithSameDateAndTime(updatedQuote.getDate(), updatedQuote.getTime())).thenReturn(true);
+
+    String quoteJson = objectMapper.writeValueAsString(updatedQuote);
+
+    mockMvc.perform(put("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(quoteJson))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.message").value("There is quote with the same date and time."))
+    .andExpect(jsonPath("$.errorType").value("QUOTE_IS_ALREADY_EXIST"));
+
+  }
+
+
   @Test
   public void deleteQuoteById() throws Exception{
     Long quoteId = 1L;
@@ -163,4 +182,5 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.rowChanged").value("1"));
 
   }
+
 }
