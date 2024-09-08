@@ -114,6 +114,25 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.symptoms").value("stomach pain"));
   }
 
+
+  @Test
+  public void throwErrorIfExistQuoteWithSameDateAndTimeWhenCreateQuote() throws Exception{
+    Quote newQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
+
+    when(quoteService.existQuoteWithSameDateAndTime(newQuote.getDate(), newQuote.getTime())).thenReturn(true);
+    when(quoteService.createQuote(newQuote)).thenReturn(null);
+
+    String quoteJson = objectMapper.writeValueAsString(newQuote);
+
+    mockMvc.perform(post("/api/v1/quote")
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(quoteJson))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.message").value("There is quote with the same date and time."))
+    .andExpect(jsonPath("$.errorType").value("QUOTE_IF_ALREADY_EXIST"));
+
+  }
+
   @Test
   public void updateQuoteById() throws Exception{
     Long quoteId = 1L;
