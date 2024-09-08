@@ -112,8 +112,9 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.symptoms").value("stomach pain"));
   }
 
+
   @Test
-  public void throwErrorWhenSendAnEmptyBody() throws Exception{
+  public void throwErrorWhenSendAnEmptyBodyCreateQuote() throws Exception{
 
     this.mockMvc.perform(post("/api/v1/quote")
     .contentType(MediaType.APPLICATION_JSON))
@@ -159,6 +160,18 @@ public class QuoteControllerShould {
     .andExpect(status().isOk())
     .andExpect(jsonPath("$.infoMessage").value("The quote is updated"))
     .andExpect(jsonPath("$.rowChanged").value("1"));
+  }
+
+
+  @Test
+  public void throwErrorWhenSendAnEmptyBodyWhenUpdateQuote() throws Exception{
+    Long quoteId = 1L;
+    this.mockMvc.perform(put("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.message").value("The body is empty!!"))
+    .andExpect(jsonPath("$.errorType").value("EMPTY_BODY"));
+
   }
 
 
