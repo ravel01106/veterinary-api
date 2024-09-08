@@ -2,6 +2,7 @@ package com.aravelo.veterinary_api.infrastructure;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,6 +33,12 @@ public class HandlerErrorController {
     ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), ErrorTypes.QUOTE_IS_ALREADY_EXIST);
     return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
 
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ErrorMessage> isEmptyBody(HttpMessageNotReadableException ex){
+    ErrorMessage errorMessage = new ErrorMessage("The body is empty!!", ErrorTypes.EMPTY_BODY);
+    return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.BAD_REQUEST);
   }
 
 }
