@@ -83,6 +83,8 @@ public class QuoteServiceImpl implements QuoteService{
 
   @Override
   public Boolean existQuoteWithSameDateAndTime(String date, String time, Long updatedQuoteId) {
-    return false;
+    List<Quote> quotes = quoteRepository.findByIdNot(updatedQuoteId);
+    List<Quote> quoteWithSameDateAndTime = quotes.stream().filter( quote -> quote.getDate().equals(date) && quote.getTime().equals(time)).toList();
+    return !quoteWithSameDateAndTime.isEmpty();
   }
 }

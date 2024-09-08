@@ -158,7 +158,7 @@ public class QuoteServiceShould {
   }
 
   @Test
-  public void returnTrueIfExistQuoteWithSameDateAndTimeUpdateQuote(){
+  public void returnTrueIfExistQuoteWithSameDateAndTimeWhenUpdateQuote(){
     Long updatedQuoteId = 2L;
     Quote quote = new Quote("Marco", "David Perez","15/04/2024", "12:05", "stomach pain");
     Quote quoteDB = new Quote("Pepe", "Gonzalez Perez","15/04/2024", "12:05", "anual revision");
