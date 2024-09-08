@@ -156,7 +156,7 @@ public class QuoteControllerShould {
     Long quoteId = 1L;
     Quote updatedQuote = new Quote("John", "Marco Perez","12/04/2024", "12:45", "stomach pain");
 
-    when(quoteService.existQuoteWithSameDateAndTime(updatedQuote.getDate(), updatedQuote.getTime())).thenReturn(true);
+    when(quoteService.existQuoteWithSameDateAndTime(updatedQuote.getDate(), updatedQuote.getTime(), quoteId)).thenReturn(true);
 
     String quoteJson = objectMapper.writeValueAsString(updatedQuote);
 

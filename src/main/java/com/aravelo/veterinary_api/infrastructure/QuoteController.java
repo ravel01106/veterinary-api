@@ -60,8 +60,11 @@ public class QuoteController {
   }
 
   @PutMapping("/quote/{quoteId}")
-  public ResponseEntity<ResultMessage> updateQuoteById(@PathVariable("quoteId") Long quoteId, @RequestBody Quote quote){
+  public ResponseEntity<ResultMessage> updateQuoteById(@PathVariable("quoteId") Long quoteId, @RequestBody Quote quote) throws QuoteIsAlreadyExistException{
 
+    if (quoteService.existQuoteWithSameDateAndTime(quote.getDate(), quote.getTime(), quoteId)) {
+      throw new QuoteIsAlreadyExistException("There is quote with the same date and time.");
+    }
     quoteService.updatedQuote(quoteId, quote);
     return new ResponseEntity<ResultMessage>(new ResultMessage("The quote is updated", 1), HttpStatus.OK);
 
