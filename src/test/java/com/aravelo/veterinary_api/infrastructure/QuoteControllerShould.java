@@ -183,4 +183,18 @@ public class QuoteControllerShould {
 
   }
 
+
+  @Test
+  public void throwErrorIfDoesNotExistQuoteWhenDeleteQuote() throws Exception{
+    Long quoteId = 1L;
+    when(quoteService.deleteQuote(quoteId)).thenReturn(false);
+
+    mockMvc.perform(delete("/api/v1/quote/{quoteId}", quoteId)
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.message").value("The quote with id 1 is not found."))
+    .andExpect(jsonPath("$.errorType").value("QUOTE_NOT_FOUND"));
+
+  }
+
 }
