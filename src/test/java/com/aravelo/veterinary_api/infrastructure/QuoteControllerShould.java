@@ -112,6 +112,17 @@ public class QuoteControllerShould {
     .andExpect(jsonPath("$.symptoms").value("stomach pain"));
   }
 
+  @Test
+  public void throwErrorWhenSendAnEmptyBody() throws Exception{
+
+    this.mockMvc.perform(post("/api/v1/quote")
+    .contentType(MediaType.APPLICATION_JSON))
+    .andExpect(status().isBadRequest())
+    .andExpect(jsonPath("$.message").value("The body is empty!!"))
+    .andExpect(jsonPath("$.errorType").value("EMPTY_BODY"));
+
+  }
+
 
   @Test
   public void throwErrorIfExistQuoteWithSameDateAndTimeWhenCreateQuote() throws Exception{
